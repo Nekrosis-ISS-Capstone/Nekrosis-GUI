@@ -9,12 +9,12 @@ Sample project based on the Couch Crasher library, using wxPython as a visual in
 
 ### macOS
 
-![macOS](Samples/macOS.png)
+<div align="center"><img src="Samples/macOS.png" alt="" width="512" /></div>
 
 ### Windows
 
-![Windows](Samples/Windows.png)
+<div align="center"><img src="Samples/Windows.png" alt="" width="400" /></div>
 
 ### Linux
 
-![Linux](Samples/Linux.png)
+<div align="center"><img src="Samples/Linux.png" alt="" width="400" /></div>
