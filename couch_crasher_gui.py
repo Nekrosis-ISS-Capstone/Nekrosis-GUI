@@ -71,7 +71,7 @@ class CouchCrasherGUI(wx.Frame):
 
         frame.ShowWindowModal() if platform.system() == "Darwin" else frame.Show()
 
-        thread = threading.Thread(target=self.cc_obj.run)
+        thread = threading.Thread(target=self.cc_obj.install)
         thread.start()
 
         while thread.is_alive():
