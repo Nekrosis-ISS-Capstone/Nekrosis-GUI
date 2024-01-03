@@ -14,9 +14,12 @@ from PyInstaller.building.build_main import Analysis
 
 
 # Grab support/macos_utilities/* binaries from the couchcrasher library
-# and add them to the PyInstaller build
+
 def get_couchcrasher_binaries():
     binaries = []
+
+    if platform.system() != "Darwin":
+        return binaries
 
     for root, dirs, files in os.walk(os.path.join(os.path.dirname(couchcrasher.__file__), "support", "macos_binaries")):
         for file in files:
