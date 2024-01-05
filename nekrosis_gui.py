@@ -80,7 +80,7 @@ class NekrosisGUI(wx.Frame):
         logging.getLogger().removeHandler(handler)
 
 
-    def select_payload(self, event):
+    def select_payload(self, event: wx.Event):
         with wx.FileDialog(self, "Select Payload", wildcard="All files (*.*)|*.*", style=wx.FD_OPEN | wx.FD_FILE_MUST_EXIST) as fileDialog:
             if fileDialog.ShowModal() == wx.ID_CANCEL:
                 return
@@ -105,7 +105,7 @@ class NekrosisGUI(wx.Frame):
         self.set_background_color()
 
         # Label: header
-        self._header = wx.StaticText(self, label=f"Nekrosis v{nekrosis.__version__}", pos=(-1, 10), size=(-1, -1))
+        self._header = wx.StaticText(self, label=f"Nekrosis v{nekrosis.__version__}", pos=(-1, 10), size=(180 if platform.system() == "Linux" else -1, -1))
         self._header.SetFont(wx.Font(self._font_title_size, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD))
         self._header.Centre(wx.HORIZONTAL)
 
@@ -135,6 +135,7 @@ class NekrosisGUI(wx.Frame):
         self._method_dropdown.Centre(wx.HORIZONTAL)
         self._method_dropdown.Bind(wx.EVT_CHOICE, self.update_methods)
 
+        # Temporary hack until Nekrosis supports Windows and Linux methods
         recommended_method: str = self.cc_obj.recommended_persistence_method()
         try:
             self._method_dropdown.SetSelection(supported_methods.index(recommended_method))
@@ -172,6 +173,7 @@ def main():
     app = wx.App()
     NekrosisGUI(None, style=wx.DEFAULT_FRAME_STYLE & ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX))
     app.MainLoop()
+
 
 if __name__ == '__main__':
     main()

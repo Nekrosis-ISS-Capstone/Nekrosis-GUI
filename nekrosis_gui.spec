@@ -14,8 +14,7 @@ from PyInstaller.building.build_main import Analysis
 
 
 # Grab support/macos_utilities/* binaries from the nekrosis library
-
-def get_nekrosis_binaries():
+def get_binaries():
     binaries = []
 
     if platform.system() != "Darwin":
@@ -34,10 +33,10 @@ def get_nekrosis_binaries():
 
 block_cipher = None
 
-a = Analysis(['couch_crasher_gui.py'],
+a = Analysis(['nekrosis_gui.py'],
              pathex=[],
              binaries=[],
-             datas=get_nekrosis_binaries(),
+             datas=get_binaries(),
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -59,7 +58,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name='Couch-Crasher-UI' + (".exe" if platform.system() == "Windows" else ""),
+          name='Nekrosis-GUI' + (".exe" if platform.system() == "Windows" else ""),
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
@@ -67,14 +66,14 @@ exe = EXE(pyz,
           console=False,
           disable_windowed_traceback=False,
           target_arch="universal2",
-          icon="Resources/AppIcon.png" if platform.system() != "Darwin" else "Resources/AppIcon.png",
-          entitlements_file="Resources/entitlements.plist",
+          icon="resources/icons/AppIcon.ico" if platform.system() != "Darwin" else "resources/icons/AppIcon.icns",
+          entitlements_file="resources/signing/entitlements.plist",
 )
 
 app = BUNDLE(exe,
-         name='Couch-Crasher-UI.app',
-         bundle_identifier="com.couch-crasher.ui",
-         icon="Resources/AppIcon.png",
+         name='Nekrosis-GUI.app',
+         bundle_identifier="com.nekrosis.ui",
+         icon="resources/icons/AppIcon.icns",
          info_plist={
              "CFBundleShortVersionString": nekrosis.__version__,
          }

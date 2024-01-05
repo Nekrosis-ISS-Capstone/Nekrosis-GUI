@@ -1,0 +1,55 @@
+name: CI - Validate macOS
+
+on:
+  push:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Validate macOS
+    runs-on: macos-latest
+    env:
+      branch: ${{ github.ref }}
+
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install Nekrosis
+        run: pip3 install resources/wheels/nekrosis-*.whl
+
+      - name: Set up Python 3 libraries
+        run: pip3 install --requirement requirements.txt
+
+      - name: Set up PyInstaller
+        run: pip3 install pyinstaller
+
+      - name: Build portable executable
+        run: pyinstaller nekrosis_gui.spec
+
+      - name: Compress executable
+        run: ditto -c -k --sequesterRsrc --keepParent dist/Nekrosis-GUI.app dist/Nekrosis-GUI.app.zip
+
+      - name: Upload executable (artifact)
+        uses: actions/upload-artifact@v2
+        with:
+          name: Nekrosis-GUI (macOS)
+          path: dist/Nekrosis-GUI.app.zip
+
+      - name: Upload executable (release)
+        if: github.event_name == 'release'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/Nekrosis-GUI.app.zip
+          asset_name: Nekrosis-GUI (macOS)
+          tag: ${{ github.ref }}
+          file_glob: true

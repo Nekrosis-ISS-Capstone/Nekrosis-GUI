@@ -1,0 +1,52 @@
+name: CI - Validate Windows
+
+on:
+  push:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Validate Windows
+    runs-on: windows-latest
+    env:
+      branch: ${{ github.ref }}
+
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set Python 3
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.11
+
+      - name: Install Nekrosis
+        run: pip3 install resources/wheels/nekrosis-*.whl
+
+      - name: Set up Python 3 libraries
+        run: pip3 install --requirement requirements.txt
+
+      - name: Set up PyInstaller
+        run: pip3 install pyinstaller
+
+      - name: Build portable executable
+        run: pyinstaller nekrosis_gui.spec
+
+      - name: Upload executable (artifact)
+        uses: actions/upload-artifact@v2
+        with:
+          name: Nekrosis-GUI.exe (Windows)
+          path: dist/Nekrosis-GUI.exe
+
+      - name: Upload executable (release)
+        if: github.event_name == 'release'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/Nekrosis-GUI.exe
+          asset_name: Nekrosis-GUI (Windows)
+          tag: ${{ github.ref }}
+          file_glob: true
