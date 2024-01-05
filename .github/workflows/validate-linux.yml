@@ -26,6 +26,9 @@ jobs:
       - name: Install Nekrosis
         run: pip3 install resources/wheel/nekrosis-*.whl
 
+      - name: Install prebuilt wxPython
+        run: pip3 install https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04/wxPython-4.2.1-cp311-cp311-linux_x86_64.whl
+
       - name: Set up Python 3 libraries
         run: pip3 install --requirement requirements.txt
 
