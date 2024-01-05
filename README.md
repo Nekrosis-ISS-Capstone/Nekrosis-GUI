@@ -1,9 +1,6 @@
-<div align="center">
-             <img src="Resources/AppIcon.png" alt="AppIcon" width="256" />
-             <h1>Couch Crasher GUI</h1>
-</div>
+# Nekrosis GUI
 
-Sample project based on the Couch Crasher library, using wxPython as a visual interface.
+Sample project based on the Nekrosis library, using wxPython as a visual interface.
 
 ## Samples
 

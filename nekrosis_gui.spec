@@ -6,22 +6,22 @@ PyInstaller Configuration File
 
 import os
 import platform
-import couchcrasher
+import nekrosis
 
 from PyInstaller.building.api import PYZ, EXE
 from PyInstaller.building.osx import BUNDLE
 from PyInstaller.building.build_main import Analysis
 
 
-# Grab support/macos_utilities/* binaries from the couchcrasher library
+# Grab support/macos_utilities/* binaries from the nekrosis library
 
-def get_couchcrasher_binaries():
+def get_nekrosis_binaries():
     binaries = []
 
     if platform.system() != "Darwin":
         return binaries
 
-    for root, dirs, files in os.walk(os.path.join(os.path.dirname(couchcrasher.__file__), "support", "macos_binaries")):
+    for root, dirs, files in os.walk(os.path.join(os.path.dirname(nekrosis.__file__), "support", "macos_binaries")):
         for file in files:
             if "cpython" in file:
                 continue
@@ -37,7 +37,7 @@ block_cipher = None
 a = Analysis(['couch_crasher_gui.py'],
              pathex=[],
              binaries=[],
-             datas=get_couchcrasher_binaries(),
+             datas=get_nekrosis_binaries(),
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -67,15 +67,15 @@ exe = EXE(pyz,
           console=False,
           disable_windowed_traceback=False,
           target_arch="universal2",
-          icon="Resources/AppIcon.png" if platform.system() != "Darwin" else "Resources/AppIcon.icns",
+          icon="Resources/AppIcon.png" if platform.system() != "Darwin" else "Resources/AppIcon.png",
           entitlements_file="Resources/entitlements.plist",
 )
 
 app = BUNDLE(exe,
          name='Couch-Crasher-UI.app',
          bundle_identifier="com.couch-crasher.ui",
-         icon="Resources/AppIcon.icns",
+         icon="Resources/AppIcon.png",
          info_plist={
-             "CFBundleShortVersionString": couchcrasher.__version__,
+             "CFBundleShortVersionString": nekrosis.__version__,
          }
 )

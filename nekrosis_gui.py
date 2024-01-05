@@ -1,20 +1,20 @@
 """
-Sample GUI for CouchCrasher
+Sample GUI for Nekrosis
 """
 
 import wx
 import logging
 import platform
 import threading
-import couchcrasher
+import nekrosis
 
 
-class CouchCrasherGUI(wx.Frame):
+class NekrosisGUI(wx.Frame):
 
     def __init__(self, *args, **kwargs):
-        super(CouchCrasherGUI, self).__init__(*args, **kwargs)
+        super(NekrosisGUI, self).__init__(*args, **kwargs)
 
-        self.cc_obj: couchcrasher.CouchCrasher = None
+        self.cc_obj: nekrosis.Nekrosis = None
 
         self._header:          wx.StaticText = None
         self._label:           wx.StaticText = None
@@ -33,12 +33,12 @@ class CouchCrasherGUI(wx.Frame):
         if platform.system() != "Darwin":
             self._last_element_position += 10
 
-        self.init_couchcrasher()
+        self.init_nekrosis()
         self.init_ui()
 
 
-    def init_couchcrasher(self):
-        self.cc_obj = couchcrasher.CouchCrasher(None)
+    def init_nekrosis(self):
+        self.cc_obj = nekrosis.Nekrosis(None)
 
 
     def update_methods(self, event: wx.Event):
@@ -46,9 +46,9 @@ class CouchCrasherGUI(wx.Frame):
         self.cc_obj.change_custom_method(item)
 
 
-    def run_couchcrasher(self, event: wx.Event):
+    def run_nekrosis(self, event: wx.Event):
         # Create a modal dialog
-        frame = wx.Dialog(self, title="Couch Crasher", size=(500, 380))
+        frame = wx.Dialog(self, title="Nekrosis", size=(500, 380))
         frame.Centre()
 
         # Textbox for output
@@ -98,14 +98,14 @@ class CouchCrasherGUI(wx.Frame):
 
 
     def init_ui(self):
-        self.SetTitle("Couch Crasher")
+        self.SetTitle("Nekrosis")
         self.SetSize((400, 200))
         self.Centre()
 
         self.set_background_color()
 
         # Label: header
-        self._header = wx.StaticText(self, label=f"Couch Crasher v{couchcrasher.__version__}", pos=(10, 10), size=(180, -1))
+        self._header = wx.StaticText(self, label=f"Nekrosis v{nekrosis.__version__}", pos=(-1, 10), size=(-1, -1))
         self._header.SetFont(wx.Font(self._font_title_size, wx.FONTFAMILY_DEFAULT, wx.FONTSTYLE_NORMAL, wx.FONTWEIGHT_BOLD))
         self._header.Centre(wx.HORIZONTAL)
 
@@ -144,7 +144,7 @@ class CouchCrasherGUI(wx.Frame):
         # wxButton: exploit
         self._exploit = wx.Button(self, label="Exploit", pos=(10, 60))
         self._exploit.SetPosition((-1, self._method_dropdown.GetPosition()[1] + 30))
-        self._exploit.Bind(wx.EVT_BUTTON, self.run_couchcrasher)
+        self._exploit.Bind(wx.EVT_BUTTON, self.run_nekrosis)
         self._exploit.Centre(wx.HORIZONTAL)
         self._exploit.Disable()
 
@@ -170,7 +170,7 @@ class ThreadHandler(logging.Handler):
 
 def main():
     app = wx.App()
-    CouchCrasherGUI(None, style=wx.DEFAULT_FRAME_STYLE & ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX))
+    NekrosisGUI(None, style=wx.DEFAULT_FRAME_STYLE & ~(wx.RESIZE_BORDER | wx.MAXIMIZE_BOX))
     app.MainLoop()
 
 if __name__ == '__main__':
